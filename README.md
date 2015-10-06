@@ -34,9 +34,11 @@ For direct Feedback please contact: andreas@batchworks.de.
 This app was created by:
 
 Andreas Roth
+
 Batchworks
 
 Strehlener Strasse 14
+
 01069 Dresden
 
 Internet: www.batchworks.de

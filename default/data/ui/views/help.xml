@@ -37,7 +37,7 @@ Restart Splunk afterwards.
 In a distributed environment the app has to be deployed to every Search head and Indexer. Make sure the app is also deployed on the Host or 
 Forwarder receiving the events from the Netscaler devices. 
 <br/><br/>
-With default settings the app will create an index “Netscaler_asm_live” and a TCP input on port 10005 using sourcetype syslog_Netscalerasm. You can customize these 
+With default settings the app will create an index “netscaler” and a TCP input on port 10005 using sourcetype citrix:netscaler. You can customize these 
 settings by changing the TCP port in inputs.conf.
 
 <br/><br/>

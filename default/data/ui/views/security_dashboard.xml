@@ -5,9 +5,7 @@
       <label>Netscaler</label>
       <default>*</default>
       <search>
-        <query>index=netscaler eventtype=ns_appfw | dedup host | sort host | table host</query>
-        <earliest>-4h@m</earliest>
-        <latest>now</latest>
+        <query>`nsindex` eventtype=ns_appfw | dedup host | sort host | table host</query>
       </search>
       <choice value="*">all</choice>
       <fieldForLabel>host</fieldForLabel>
@@ -17,7 +15,7 @@
       <label>Select vHost:</label>
       <default>*</default>
       <search>
-        <query>index=netscaler eventtype=ns_appfw host=$host$ | top vhost</query>
+        <query>`nsindex` eventtype=ns_appfw host=$host$ | top vhost</query>
       </search>
       <choice value="*">all</choice>
       <fieldForLabel>vhost</fieldForLabel>
@@ -27,9 +25,7 @@
       <label>Select Country:</label>
       <default>*</default>
       <search>
-        <query>index=netscaler eventtype=ns_appfw host=$host$ vhost=$vhost$ | iplocation clientip | top Country | table Country</query>
-        <earliest>-4h@m</earliest>
-        <latest>now</latest>
+        <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ | iplocation clientip | top Country | table Country</query>
       </search>
       <choice value="*">all</choice>
       <fieldForLabel>Country</fieldForLabel>
@@ -40,7 +36,7 @@
       <label>Select Client IP:</label>
       <default>*</default>
       <search>
-        <query>index=netscaler eventtype=ns_appfw host=$host$ vhost=$vhost$ | iplocation clientip | search Country="$Country$" | top limit=100 clientip | table clientip</query>
+        <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ | iplocation clientip | search Country="$Country$" | top limit=100 clientip | table clientip</query>
       </search>
       <choice value="*">all</choice>
       <fieldForLabel>clientip</fieldForLabel>
@@ -51,7 +47,7 @@
       <label>Select Action:</label>
       <default>*</default>
       <search>
-        <query>index=netscaler eventtype=ns_appfw | dedup action | table action</query>
+        <query>`nsindex` eventtype=ns_appfw | dedup action | table action</query>
       </search>
       <choice value="*">all</choice>
       <fieldForLabel>action</fieldForLabel>

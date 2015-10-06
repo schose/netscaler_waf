@@ -22,7 +22,6 @@ Features:
         		
 	<ul><li>Displays attacks based on GeoIP</li></ul>
 	<ul><li>Displays attacks based on Type</li></ul>
-	<ul><li>Displays attacks based on Violation, Signature</li></ul>
 	<ul><li>Displays attacks based on Country</li></ul>
 	<ul><li>Displays attacks based on IPs</li></ul>
 	<ul><li>Heatmap for Attack Type Distribution by Type, Country, Violation</li></ul>
@@ -41,34 +40,6 @@ Forwarder receiving the events from the Netscaler devices.
 With default settings the app will create an index “Netscaler_asm_live” and a TCP input on port 10005 using sourcetype syslog_Netscalerasm. You can customize these 
 settings by changing the TCP port in inputs.conf.
 
-<br/><br/>  
-
-
-<h3>Creating a logging profile on Netscaler ASM for sending Events to Splunk</h3>   
-        
-To integrate Splunk you will need to create a new logging profile on your Netscaler ASM which sends the events to your Splunk TCP input. 
-<br/><br/>
-
-To create a logging profile:
-<br/>
-
-	<ol>
-		<li>On the Main Tab select Security, expand Event Logs. The Edit Logging Profile page opens.</li>
-		<li>Check "Application Security" in the Logging Profile Properties.</li>
-		<li>At Application Security tab select “Advanced” for Configuration setting.</li>
-		<li>Select the Remote Storage check box, and for the Type select Reporting Server.</li>
-		<li>Set Response Logging to Off.</li>
-		<li>For the protocol setting, select TCP.</li>
-		<li>For the IP Address setting, type the name of the host providing the TCP input (forwarder or indexer)</li>
-		<li>For the Port setting type the default value 10005.</li>
-		<li>Within the Storage Filter tab choose Request type = "Illegal Requests Only"</li>
-		<li>Click the “Update” Button.</li>
-     </ol>
-
-<br/><br/>
-	 
-<img src="/static/app/Netscaler_asm/asm_profile.png" width="900"></img>
-	 
 <br/><br/>
 <h3>Feedback and Contact</h3>             
 
@@ -80,7 +51,8 @@ This App was created by:
 
 <br/> <br/>
 Andreas Roth<br/>
-Strehlener Strass 14<br/>
+Batchworks<br/>
+Strehlener Strasse 14<br/>
 01069 Dresden
 <br/><br/>
 <br/><br/>

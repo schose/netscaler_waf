@@ -1,0 +1,35 @@
+[app/ui]
+version = 6.3.0
+modtime = 1444136930.662241900
+
+[app/launcher]
+version = 6.3.0
+modtime = 1444136930.672250700
+
+[props/citrix%3Anetscaler]
+owner = admin
+version = 6.3.0
+modtime = 1444137699.956325100
+
+[props/citrix%3Anetscaler/EXTRACT-setting%2Cclientip%2Cprofile%2Curl%2Caction]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.3.0
+modtime = 1444142974.967822100
+
+[views/security_dashboard]
+owner = admin
+version = 6.3.0
+modtime = 1444159523.039491800
+
+[props/citrix%3Anetscaler/EXTRACT-vhost]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.3.0
+modtime = 1444145884.074175100
+
+[nav/default]
+version = 6.3.0
+modtime = 1444146151.972024900

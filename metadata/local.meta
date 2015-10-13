@@ -33,3 +33,10 @@ modtime = 1444145884.074175100
 [nav/default]
 version = 6.3.0
 modtime = 1444146151.972024900
+
+[eventtypes/ns_appfw]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.3.0
+modtime = 1444166214.553455400

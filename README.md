@@ -24,6 +24,8 @@ Forwarder receiving the events from the Netscaler devices.
 With default settings the app will create an index named “netscaler” and a TCP input on port 10005 using sourcetype citrix:netscaler. You can customize these 
 settings by changing the TCP port in inputs.conf.
 
+The app have been tested against Splunk v6.1, v6.2 and v6.3. Lower versions will not work "out of the box". The Common Event Format (CFE) descripted in http://support.citrix.com/article/CTX136146
+is supported but not a requirement. 
 
 ### Feedback and Contact ###
 

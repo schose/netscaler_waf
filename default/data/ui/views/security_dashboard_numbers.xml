@@ -14,9 +14,6 @@
       <table>
         <title>Attack Type Distribution by Type Over Time</title>
         <searchString>`nsindex` eventtype=ns_appfw  | timechart span=1h count by profile useother=no limit=10</searchString>
-		<search>
-          <query>`nsindex` eventtype=ns_appfw  | timechart span=1h count by profile useother=no limit=10</query>
-        </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
         <option name="charting.axisTitleX.visibility">collapsed</option>
@@ -48,9 +45,6 @@
       <table>
         <title>Attack Distribution by Country Over Time</title>
         <searchString>`nsindex` eventtype=ns_appfw  | iplocation src  |  timechart span=1h count by Country useother=no limit=10</searchString>
-		<search>
-          <query>`nsindex` eventtype=ns_appfw  | iplocation src  |  timechart span=1h count by Country useother=no limit=10</query>
-        </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
         <option name="charting.axisTitleX.visibility">collapsed</option>
@@ -82,9 +76,6 @@
       <table>
         <title>Top Attacking Types</title>
         <searchString>`nsindex` eventtype=ns_appfw | top limit=10 profile useother=no</searchString>
-		<search>
-          <query>`nsindex` eventtype=ns_appfw | top limit=10 profile useother=no</query>
-        </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
         <option name="charting.axisTitleX.visibility">collapsed</option>
@@ -124,9 +115,6 @@
       <table>
         <title>Top Attacking Countries</title>
         <searchString>`nsindex` eventtype=ns_appfw | iplocation src | top Country limit=10</searchString>
-		<search>
-          <query>`nsindex` eventtype=ns_appfw | iplocation src | top Country limit=10</query>
-        </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
         <option name="charting.axisTitleX.visibility">collapsed</option>
@@ -158,9 +146,6 @@
       <table>
         <title>Top Attacking IPs</title>
         <searchString>`nsindex` eventtype=ns_appfw | top src limit=10</searchString>
-		<search>
-          <query>`nsindex` eventtype=ns_appfw | top src limit=10</query>
-        </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
         <option name="charting.axisTitleX.visibility">collapsed</option>

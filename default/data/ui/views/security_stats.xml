@@ -14,9 +14,7 @@
       <table>
         <title>Request Stats</title>
         <searchString>`nsindex` eventtype=ns_appfw | iplocation src | table  _time vhost profile src Country act</searchString>
-        <search>
-          <query>`nsindex` eventtype=ns_appfw | iplocation src | table  _time vhost profile src Country act</query>
-        </search>&gt;<option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+		<option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
         <option name="charting.axisTitleX.visibility">visible</option>
         <option name="charting.axisTitleY.visibility">visible</option>

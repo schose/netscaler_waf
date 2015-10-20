@@ -4,8 +4,8 @@
     <input type="time" searchWhenChanged="true">
       <label>Select Time:</label>
       <default>
-        <earliest>-4h@m</earliest>
-        <latest>now</latest>
+        <earliestTime>-4h@m</earliestTime>
+        <latestTime>now</latestTime>
       </default>
     </input>
   </fieldset>
@@ -13,8 +13,9 @@
     <panel>
       <table>
         <title>Request Stats</title>
+        <searchString>`nsindex` eventtype=ns_appfw | iplocation src | table  _time vhost profile src Country act</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw | iplocation clientip | table  _time vhost profile clientip Country action</query>
+          <query>`nsindex` eventtype=ns_appfw | iplocation src | table  _time vhost profile src Country act</query>
         </search>&gt;<option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
         <option name="charting.axisTitleX.visibility">visible</option>

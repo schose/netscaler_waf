@@ -4,8 +4,8 @@
     <input type="time" searchWhenChanged="true">
       <label>Select Time:</label>
       <default>
-        <earliest>-4h@m</earliest>
-        <latest>now</latest>
+        <earliestTime>-4h@m</earliestTime>
+        <latestTime>now</latestTime>
       </default>
     </input>
   </fieldset>
@@ -13,8 +13,9 @@
     <panel>
       <table>
         <title>Attack Type Distribution by Type Over Time</title>
-        <search>
-          <query>`nsindex` eventtype=ns_appfw  | timechart span=1h count by profile useother=no limit=10 </query>
+        <searchString>`nsindex` eventtype=ns_appfw  | timechart span=1h count by profile useother=no limit=10</searchString>
+		<search>
+          <query>`nsindex` eventtype=ns_appfw  | timechart span=1h count by profile useother=no limit=10</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -46,8 +47,9 @@
     <panel>
       <table>
         <title>Attack Distribution by Country Over Time</title>
-        <search>
-          <query>`nsindex` eventtype=ns_appfw  | iplocation clientip  |  timechart span=1h count by Country useother=no limit=10 </query>
+        <searchString>`nsindex` eventtype=ns_appfw  | iplocation src  |  timechart span=1h count by Country useother=no limit=10</searchString>
+		<search>
+          <query>`nsindex` eventtype=ns_appfw  | iplocation src  |  timechart span=1h count by Country useother=no limit=10</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -79,7 +81,8 @@
     <panel>
       <table>
         <title>Top Attacking Types</title>
-        <search>
+        <searchString>`nsindex` eventtype=ns_appfw | top limit=10 profile useother=no</searchString>
+		<search>
           <query>`nsindex` eventtype=ns_appfw | top limit=10 profile useother=no</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -120,8 +123,9 @@
     <panel>
       <table>
         <title>Top Attacking Countries</title>
-        <search>
-          <query>`nsindex` eventtype=ns_appfw | iplocation clientip | top Country limit=10</query>
+        <searchString>`nsindex` eventtype=ns_appfw | iplocation src | top Country limit=10</searchString>
+		<search>
+          <query>`nsindex` eventtype=ns_appfw | iplocation src | top Country limit=10</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -153,8 +157,9 @@
     <panel>
       <table>
         <title>Top Attacking IPs</title>
-        <search>
-          <query>`nsindex` eventtype=ns_appfw | top clientip limit=10</query>
+        <searchString>`nsindex` eventtype=ns_appfw | top src limit=10</searchString>
+		<search>
+          <query>`nsindex` eventtype=ns_appfw | top src limit=10</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>

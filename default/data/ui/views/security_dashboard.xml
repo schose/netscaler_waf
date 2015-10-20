@@ -10,6 +10,7 @@
       <choice value="*">all</choice>
       <fieldForLabel>host</fieldForLabel>
       <fieldForValue>host</fieldForValue>
+      <populatingSearch fieldForLabel="host" fieldForValue="host">`nsindex` eventtype=ns_appfw | dedup host | sort host | table host</populatingSearch>
     </input>
     <input type="dropdown" searchWhenChanged="true" token="vhost">
       <label>Select vHost:</label>
@@ -20,54 +21,57 @@
       <choice value="*">all</choice>
       <fieldForLabel>vhost</fieldForLabel>
       <fieldForValue>vhost</fieldForValue>
+      <populatingSearch fieldForLabel="vhost" fieldForValue="vhost">`nsindex` eventtype=ns_appfw host=$host$ | top vhost</populatingSearch>
     </input>
     <input type="dropdown" searchWhenChanged="true" token="Country">
       <label>Select Country:</label>
       <default>*</default>
       <search>
-        <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ | iplocation clientip | top Country | table Country</query>
+        <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ | iplocation src | top Country | table Country</query>
       </search>
       <choice value="*">all</choice>
       <fieldForLabel>Country</fieldForLabel>
       <fieldForValue>Country</fieldForValue>
       <initialValue>*</initialValue>
+      <populatingSearch fieldForLabel="Country" fieldForValue="Country">`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ | iplocation src | top Country | table Country</populatingSearch>
     </input>
-    <input type="dropdown" searchWhenChanged="true" token="clientip">
+    <input type="dropdown" searchWhenChanged="true" token="src">
       <label>Select Client IP:</label>
       <default>*</default>
       <search>
-        <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ | iplocation clientip | search Country="$Country$" | top limit=100 clientip | table clientip</query>
+        <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ | top limit=100 src | table src</query>
       </search>
       <choice value="*">all</choice>
-      <fieldForLabel>clientip</fieldForLabel>
-      <fieldForValue>clientip</fieldForValue>
+      <fieldForLabel>src</fieldForLabel>
+      <fieldForValue>src</fieldForValue>
+      <populatingSearch fieldForLabel="src" fieldForValue="src">`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ | top limit=100 src | table src</populatingSearch>
     </input>
-	
-	<input type="dropdown" searchWhenChanged="true" token="action">
-      <label>Select Action:</label>
+    <input type="dropdown" searchWhenChanged="true" token="act">
+      <label>Select action:</label>
       <default>*</default>
       <search>
-        <query>`nsindex` eventtype=ns_appfw | dedup action | table action</query>
+        <query>`nsindex` eventtype=ns_appfw | dedup act | table act</query>
       </search>
       <choice value="*">all</choice>
-      <fieldForLabel>action</fieldForLabel>
-      <fieldForValue>action</fieldForValue>
+      <fieldForLabel>act</fieldForLabel>
+      <fieldForValue>act</fieldForValue>
+      <populatingSearch fieldForLabel="act" fieldForValue="act">`nsindex` eventtype=ns_appfw | dedup act | table act</populatingSearch>
     </input>
-	
     <input type="time" searchWhenChanged="true">
       <label>Select Time:</label>
       <default>
-        <earliest>-4h@m</earliest>
-        <latest>now</latest>
+        <earliestTime>-4h@m</earliestTime>
+        <latestTime>now</latestTime>
       </default>
     </input>
   </fieldset>
   <row>
     <panel>
+      <title>Security Metrics</title>
       <single>
-        <title>Security Metrics</title>
+	    <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$"   | iplocation src | search Country="$Country$" | stats count</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$"   | iplocation clientip | search Country="$Country$" | stats count</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$"   | iplocation src | search Country="$Country$" | stats count</query>
         </search>
         <option name="underLabel">Attacks</option>
         <option name="linkView">search</option>
@@ -83,8 +87,9 @@
         <option name="useThousandSeparators">1</option>
       </single>
       <single>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$"   | iplocation src | search Country="$Country$"   | stats dc(Country) as Country</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$"   | iplocation clientip | search Country="$Country$"   | stats dc(Country) as Country</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$"   | iplocation src | search Country="$Country$"   | stats dc(Country) as Country</query>
         </search>
         <option name="underLabel">Countries</option>
         <option name="linkView">search</option>
@@ -100,8 +105,9 @@
         <option name="useThousandSeparators">1</option>
       </single>
       <single>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$"    | iplocation src | search Country="$Country$" | stats dc(src) as srcs</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$"    | iplocation clientip | search Country="$Country$" | stats dc(clientip) as clientips</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$"    | iplocation src | search Country="$Country$" | stats dc(src) as srcs</query>
         </search>
         <option name="underLabel">Unique IPs</option>
         <option name="linkView">search</option>
@@ -122,8 +128,9 @@
     <panel>
       <map>
         <title>Attack Map based on GeoIP</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$"    | iplocation src | search Country="$Country$" | geostats count by profile</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$"    | iplocation clientip | search Country="$Country$" | geostats count by profile</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$"    | iplocation src | search Country="$Country$" | geostats count by profile</query>
         </search>
         <option name="mapping.data.maxClusters">100</option>
         <option name="mapping.drilldown">all</option>
@@ -154,8 +161,9 @@
     <panel>
       <chart>
         <title>Attack Type Distribution by Type Over Time</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src | search Country="$Country$" | timechart count by profile useother=no limit=10</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$" | timechart count by profile useother=no limit=10</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src | search Country="$Country$" | timechart count by profile useother=no limit=10</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -185,8 +193,9 @@
     <panel>
       <chart>
         <title>Attack Distribution by Country Over Time</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$"  | timechart count by Country useother=no limit=10</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$" | iplocation clientip  | timechart count by Country useother=no limit=10</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  | search Country="$Country$"  | timechart count by Country useother=no limit=10</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -218,8 +227,9 @@
     <panel>
       <chart>
         <title>Top Attacking Types</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$"  | top limit=10 profile useother=no</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$" | top limit=10 profile useother=no</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$" | top limit=10 profile useother=no</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -250,8 +260,9 @@
     <panel>
       <chart>
         <title>Spreading Top Attacking Types</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$" | top limit=10 profile useother=no</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$" | top limit=10 useother=no profile </query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$" | top limit=10 useother=no profile</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -283,8 +294,9 @@
     <panel>
       <chart>
         <title>Top Attacked vHosts</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$" | top limit=10 useother=no vhost</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$" | top limit=10 useother=no vhost </query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$" | top limit=10 useother=no vhost</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -314,9 +326,11 @@
     <panel>
       <chart>
         <title>Spreading Top Attacked vHosts</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$" | top limit=10 useother=no vhost</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$" | top limit=10 useother=no vhost </query>
-        </search>&gt;<option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src  |  search Country="$Country$" | top limit=10 useother=no vhost</query>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
         <option name="charting.axisTitleX.visibility">visible</option>
         <option name="charting.axisTitleY.visibility">visible</option>
@@ -347,7 +361,7 @@
       <chart>
         <title>Top Attacking Countries</title>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$"  | iplocation clientip | top limit=10 useother=false Country</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src | search Country="$Country$" | top limit=10 useother=false Country</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -377,8 +391,9 @@
     <panel>
       <chart>
         <title>Spreading Top Attacking Countries</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src |  search Country="$Country$" | top limit=10 useother=false Country</searchString>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$" | iplocation clientip | top limit=10 useother=false Country</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src | search Country="$Country$" | top limit=10 useother=false Country</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -411,7 +426,7 @@
       <chart>
         <title>Top Attacking IPs</title>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$"  | top limit=10 useother=false clientip</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src | search Country="$Country$" | top limit=10 useother=false src</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -440,9 +455,9 @@
     </panel>
     <panel>
       <chart>
-        <title>Spreading Top Attacking IPs</title>
+        <title>Spreading Attacking IPs</title>
         <search>
-          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ clientip=$clientip$ action="$action$"  | iplocation clientip | top limit=10 useother=false clientip</query>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src | search Country="$Country$" | top limit=10 useother=false src</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -468,6 +483,45 @@
         <option name="charting.chart.showDataLabels">none</option>
         <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
       </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Top Requested Urls</title>
+        <searchString>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src | search Country="$Country$" |  top limit=10 useother=false request</searchString>
+        <search>
+          <query>`nsindex` eventtype=ns_appfw host=$host$ vhost=$vhost$ src=$src$ act="$act$" | iplocation src | search Country="$Country$" |  top limit=10 useother=false request</query>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">none</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="count">10</option>
+      </table>
     </panel>
   </row>
 </form>

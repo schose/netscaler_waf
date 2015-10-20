@@ -2,7 +2,7 @@
 
 ### Overview ###
 
-The app "Netscaler WAF Security for Splunk" analyzes attacks on your web infrastructure prohibited by Netscaler.
+The app "Netscaler WAF Security for Splunk" analyzes attacks on your web infrastructure prohibited by Netscaler. It's is a fork of the original F5 WAF Security by Nexinto located at https://splunkbase.splunk.com/app/2873.
 
 Features:
 
@@ -34,11 +34,8 @@ For direct Feedback please contact: andreas@batchworks.de.
 This app was created by:
 
 Andreas Roth
-
 Batchworks
-
 Strehlener Strasse 14
-
 01069 Dresden
 
 Internet: www.batchworks.de

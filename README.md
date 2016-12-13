@@ -21,10 +21,9 @@ Restart Splunk afterwards.
 In a distributed environment the app has to be deployed to every Search head and Indexer. Make sure the app is also deployed on the Host or 
 Forwarder receiving the events from the Netscaler devices. 
 
-With default settings the app will create an index named “netscaler” and a TCP input on port 10005 using sourcetype citrix:netscaler. You can customize these 
-settings by changing the TCP port in inputs.conf.
+With default settings the app you have to create an index named “netscaler” and make sure data is imported using sourcetype "citrix:netscaler". 
 
-The app have been tested against Splunk v6.1, v6.2 and v6.3. Lower versions will not work "out of the box". The Common Event Format (CFE) descripted in http://support.citrix.com/article/CTX136146
+The app have been tested against Splunk v6.1 up to v6.5. Lower versions will not work "out of the box". The Common Event Format (CFE) descripted in http://support.citrix.com/article/CTX136146
 is supported but not a requirement. 
 
 ### Feedback and Contact ###

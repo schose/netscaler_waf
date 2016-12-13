@@ -1,0 +1,406 @@
+{
+    "modelName": "netscaler_waf",
+    "displayName": "netscaler_waf",
+    "description": "",
+    "objectSummary": {
+        "Event-Based": 1,
+        "Transaction-Based": 0,
+        "Search-Based": 0
+    },
+    "objects": [
+        {
+            "objectName": "ns_waf",
+            "displayName": "ns_waf",
+            "parentName": "BaseEvent",
+            "fields": [
+                {
+                    "fieldName": "nswaf_action",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_action",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_appliance",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_appliance",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_company",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_company",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_eventid",
+                    "owner": "ns_waf",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_eventid",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_host",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_httptransactionid",
+                    "owner": "ns_waf",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_httptransactionid",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_interface",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_interface",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_logformat",
+                    "owner": "ns_waf",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_logformat",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_method",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_method",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_msg",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_msg",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_profilename",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_profilename",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_request",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_request",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_requestvhost",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_requestvhost",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_secviolation",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_secviolation",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_sessionid",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_sessionid",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_severity",
+                    "owner": "ns_waf",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_severity",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_severitystring",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_severitystring",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_src",
+                    "owner": "ns_waf",
+                    "type": "ipv4",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_src",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_src_port",
+                    "owner": "ns_waf",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_src_port",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_version",
+                    "owner": "ns_waf",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_version",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "nswaf_year",
+                    "owner": "ns_waf",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "nswaf_year",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "BaseEvent",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "host",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "host",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "source",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "source",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sourcetype",
+                    "owner": "BaseEvent",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sourcetype",
+                    "comment": ""
+                }
+            ],
+            "calculations": [
+                {
+                    "outputFields": [
+                        {
+                            "fieldName": "nswaf_src_lon",
+                            "owner": "ns_waf",
+                            "type": "number",
+                            "fieldSearch": "nswaf_src_lon=*",
+                            "required": true,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "nswaf_lon",
+                            "comment": "",
+                            "lookupOutputFieldName": "lon"
+                        },
+                        {
+                            "fieldName": "nswaf_src_lat",
+                            "owner": "ns_waf",
+                            "type": "number",
+                            "fieldSearch": "nswaf_src_lat=*",
+                            "required": true,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "nswaf_lat",
+                            "comment": "",
+                            "lookupOutputFieldName": "lat"
+                        },
+                        {
+                            "fieldName": "nswaf_src_City",
+                            "owner": "ns_waf",
+                            "type": "string",
+                            "fieldSearch": "nswaf_src_City=*",
+                            "required": true,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "nswaf_country",
+                            "comment": "",
+                            "lookupOutputFieldName": "City"
+                        },
+                        {
+                            "fieldName": "nswaf_src_Region",
+                            "owner": "ns_waf",
+                            "type": "string",
+                            "fieldSearch": "nswaf_src_Region=*",
+                            "required": true,
+                            "multivalue": false,
+                            "hidden": true,
+                            "editable": true,
+                            "displayName": "nswaf_src_Region",
+                            "comment": "",
+                            "lookupOutputFieldName": "Region"
+                        },
+                        {
+                            "fieldName": "nswaf_src_Country",
+                            "owner": "ns_waf",
+                            "type": "string",
+                            "fieldSearch": "nswaf_src_Country=*",
+                            "required": true,
+                            "multivalue": false,
+                            "hidden": false,
+                            "editable": true,
+                            "displayName": "nswaf_country",
+                            "comment": "",
+                            "lookupOutputFieldName": "Country"
+                        }
+                    ],
+                    "inputField": "nswaf_src",
+                    "calculationType": "GeoIP",
+                    "comment": "",
+                    "owner": "ns_waf",
+                    "calculationID": "g0kvk6d49oic433u8a1yvi",
+                    "editable": true
+                }
+            ],
+            "constraints": [
+                {
+                    "search": "`nsindex` appfw",
+                    "owner": "ns_waf"
+                }
+            ],
+            "lineage": "ns_waf"
+        }
+    ],
+    "objectNameList": [
+        "ns_waf"
+    ]
+}

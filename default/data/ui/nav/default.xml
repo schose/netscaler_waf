@@ -1,5 +1,5 @@
 <nav search_view="search" color="#65A637">
-  <view name="security_dashboard" default='true' />
+  <view name="security_dashboard_tstats" default='true' />
   <view name="security_dashboard_numbers" />    		
   <view name="security_stats" />
   <view name="search"  />

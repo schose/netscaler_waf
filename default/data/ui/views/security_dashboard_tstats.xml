@@ -129,8 +129,6 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_sr
 | rename ns_waf.nswaf_src as ip
 | iplocation ip
 | geostats count by Country</query>
-          <earliest>1479510000.000</earliest>
-          <latest>1482162962.000</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="drilldown">all</option>

@@ -74,42 +74,6 @@
                     "comment": ""
                 },
                 {
-                    "fieldName": "nswaf_httptransactionid",
-                    "owner": "ns_waf",
-                    "type": "number",
-                    "fieldSearch": "",
-                    "required": false,
-                    "multivalue": false,
-                    "hidden": false,
-                    "editable": true,
-                    "displayName": "nswaf_httptransactionid",
-                    "comment": ""
-                },
-                {
-                    "fieldName": "nswaf_interface",
-                    "owner": "ns_waf",
-                    "type": "string",
-                    "fieldSearch": "",
-                    "required": false,
-                    "multivalue": false,
-                    "hidden": false,
-                    "editable": true,
-                    "displayName": "nswaf_interface",
-                    "comment": ""
-                },
-                {
-                    "fieldName": "nswaf_logformat",
-                    "owner": "ns_waf",
-                    "type": "number",
-                    "fieldSearch": "",
-                    "required": false,
-                    "multivalue": false,
-                    "hidden": false,
-                    "editable": true,
-                    "displayName": "nswaf_logformat",
-                    "comment": ""
-                },
-                {
                     "fieldName": "nswaf_method",
                     "owner": "ns_waf",
                     "type": "string",
@@ -179,18 +143,6 @@
                     "hidden": false,
                     "editable": true,
                     "displayName": "nswaf_secviolation",
-                    "comment": ""
-                },
-                {
-                    "fieldName": "nswaf_sessionid",
-                    "owner": "ns_waf",
-                    "type": "string",
-                    "fieldSearch": "",
-                    "required": false,
-                    "multivalue": false,
-                    "hidden": false,
-                    "editable": true,
-                    "displayName": "nswaf_sessionid",
                     "comment": ""
                 },
                 {
@@ -326,7 +278,7 @@
                             "multivalue": false,
                             "hidden": false,
                             "editable": true,
-                            "displayName": "nswaf_lon",
+                            "displayName": "nswaf_src_lon",
                             "comment": "",
                             "lookupOutputFieldName": "lon"
                         },
@@ -339,7 +291,7 @@
                             "multivalue": false,
                             "hidden": false,
                             "editable": true,
-                            "displayName": "nswaf_lat",
+                            "displayName": "nswaf_src_lat",
                             "comment": "",
                             "lookupOutputFieldName": "lat"
                         },
@@ -352,7 +304,7 @@
                             "multivalue": false,
                             "hidden": true,
                             "editable": true,
-                            "displayName": "nswaf_country",
+                            "displayName": "nswaf_src_City",
                             "comment": "",
                             "lookupOutputFieldName": "City"
                         },
@@ -378,7 +330,7 @@
                             "multivalue": false,
                             "hidden": false,
                             "editable": true,
-                            "displayName": "nswaf_country",
+                            "displayName": "nswaf_src_Country",
                             "comment": "",
                             "lookupOutputFieldName": "Country"
                         }
@@ -387,7 +339,7 @@
                     "calculationType": "GeoIP",
                     "comment": "",
                     "owner": "ns_waf",
-                    "calculationID": "g0kvk6d49oic433u8a1yvi",
+                    "calculationID": "v1iapathvkfckeyd4n59x80k9",
                     "editable": true
                 }
             ],

@@ -4,7 +4,7 @@
     <input type="time" searchWhenChanged="true">
       <label>Select Time:</label>
       <default>
-        <earliestTime>-4h@m</earliestTime>
+        <earliestTime>-24h@4</earliestTime>
         <latestTime>now</latestTime>
       </default>
     </input>

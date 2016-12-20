@@ -8,7 +8,10 @@
       <fieldForLabel>host</fieldForLabel>
       <fieldForValue>host</fieldForValue>
       <search>
-        <query>| `nststats` values(ns_waf.nswaf_host) as host from datamodel=netscaler_waf</query>
+        <query>| `nststats` values(ns_waf.nswaf_host) as host from datamodel=netscaler_waf
+| mvexpand host
+| sort host		
+		</query>
       </search>
     </input>
     <input type="dropdown" searchWhenChanged="true" token="vhost">

@@ -23,6 +23,19 @@
 | sort vhost</query>
       </search>
     </input>
+    <input type="dropdown" searchWhenChanged="true" token="country">
+      <label>Select Country:</label>
+      <default>*</default>
+      <choice value="*">all</choice>
+      <fieldForLabel>country</fieldForLabel>
+      <fieldForValue>country</fieldForValue>
+      <initialValue>*</initialValue>
+      <search>
+        <query>| tstats values(ns_waf.nswaf_src_Country) as country from datamodel=netscaler_waf where ns_waf.nswaf_host=$host$ ns_waf.nswaf_requestvhost=$vhost$
+| mvexpand country
+| sort country</query>
+      </search>
+    </input>
     <input type="text" searchWhenChanged="true" token="src">
       <label>Select Client IP:</label>
       <default>*</default>
@@ -53,7 +66,7 @@
       <single>
         <search>
           <query>| tstats count from datamodel=netscaler_waf 
-		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"</query>
+		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"</query>
         </search>
         <option name="underLabel">Attacks</option>
         <option name="linkView">search</option>
@@ -71,7 +84,7 @@
       <single>
         <search>
           <query>| tstats dc(ns_waf.nswaf_src_Country) from datamodel=netscaler_waf
-		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"</query>
+		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"</query>
         </search>
         <option name="underLabel">Countries</option>
         <option name="linkView">search</option>
@@ -89,7 +102,7 @@
       <single>
         <search>
           <query>| tstats dc(ns_waf.nswaf_src) from datamodel=netscaler_waf
-		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"</query>
+		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"</query>
         </search>
         <option name="underLabel">Unique IPs</option>
         <option name="linkView">search</option>
@@ -112,7 +125,7 @@
       <map>
         <search>
           <query>| tstats count from datamodel=netscaler_waf 
-where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_src
+where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_src
 | rename ns_waf.nswaf_src as ip
 | iplocation ip
 | geostats count by Country</query>
@@ -148,7 +161,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
         <title>Attack Type Distribution by Type Over Time</title>
         <search>
           <query>| tstats prestats=t count from datamodel=netscaler_waf 
-	where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
+	where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
 	by _time span=1h
 	| timechart span=1h count</query>
         </search>
@@ -181,7 +194,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       <chart>
         <title>blocked vs. monitored</title>
         <search>
-          <query>| tstats count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_action</query>
+          <query>| tstats count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_action</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -214,7 +227,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       <chart>
         <title>Top Attacked vHosts</title>
         <search>
-          <query>| tstats count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_requestvhost
+          <query>| tstats count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_requestvhost
 	| sort 10 - count</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -246,7 +259,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       <chart>
         <title>Spreading Top Attacked vHosts</title>
         <search>
-          <query>| tstats count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" by ns_waf.nswaf_requestvhost
+          <query>| tstats count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" by ns_waf.nswaf_requestvhost
 	| sort 10 - count</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -280,7 +293,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       <chart>
         <title>Top Attacking IPs</title>
         <search>
-          <query>| tstats count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_src
+          <query>| tstats count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_src
 	| sort 10 - count</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -313,7 +326,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
         <title>Attack Distribution by Country Over Time</title>
         <search>
           <query>| tstats prestats=t count from datamodel=netscaler_waf 
-	where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
+	where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_src_Country="$country$" ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
 	by _time span=1h ns_waf.nswaf_src_Country
 	| timechart span=1h count by ns_waf.nswaf_src_Country</query>
         </search>

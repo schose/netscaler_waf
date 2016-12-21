@@ -58,7 +58,7 @@
           <query>| `nststats` count from datamodel=netscaler_waf 
 		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"</query>
         </search>
-        <option name="underLabel">Attacks</option>
+        <option name="underLabel">Events</option>
         <option name="linkView">search</option>
         <option name="drilldown">none</option>
         <option name="colorBy">value</option>
@@ -111,7 +111,7 @@
   </row>
   <row>
     <panel>
-      <title>Attack by Country</title>
+      <title>Events by Country</title>
       <map>
         <search>
           <query>| `nststats` count from datamodel=netscaler_waf 
@@ -148,7 +148,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
   <row>
     <panel>
       <chart>
-        <title>Attack Type Distribution by Type Over Time</title>
+        <title>Event Type Distribution by Type Over Time</title>
         <search>
           <query>| `nststats` prestats=t count from datamodel=netscaler_waf 
 	where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
@@ -215,7 +215,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
   <row>
     <panel>
       <chart>
-        <title>Top Attacked vHosts</title>
+        <title>Top vHosts</title>
         <search>
           <query>	
 
@@ -262,7 +262,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
     </panel>
     <panel>
       <chart>
-        <title>Spreading Top Attacked vHosts</title>
+        <title>Spreading Top vHosts</title>
         <search>
           <query>
 | `nststats` count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" by ns_waf.nswaf_requestvhost
@@ -297,7 +297,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
   <row>
     <panel>
       <chart>
-        <title>Top Attacking IPs</title>
+        <title>Top IPs</title>
         <search>
           <query>
 		  
@@ -346,7 +346,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
     </panel>
     <panel>
       <chart>
-        <title>Attack Distribution by Country Over Time</title>
+        <title>Event Distribution by Country Over Time</title>
         <search>
           <query>| `nststats` prestats=t count from datamodel=netscaler_waf 
 	where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
@@ -383,10 +383,26 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
    <row>
     <panel>
       <chart>
-        <title>Top Attacking by Security Violation</title>
+        <title>Top Security Violation</title>
         <search>
-          <query>| `nststats` count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_secviolation
-	| sort 10 - count</query>
+          <query>
+		  
+	<![CDATA[
+	
+	| tstats prestats=t count from datamodel=netscaler_waf where 
+    [| tstats summariesonly=t count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"  by ns_waf.nswaf_secviolation 
+    | sort 10 - count 
+    | fields ns_waf.nswaf_secviolation ] 
+    ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" 
+    by ns_waf.nswaf_secviolation ns_waf.nswaf_action 
+| chart count over ns_waf.nswaf_secviolation by ns_waf.nswaf_action
+| rename "not blocked" as not_blocked
+| eval sum=if(blocked>0,if(not_blocked>0,blocked+not_blocked,blocked),not_blocked)
+| sort - sum 
+| fields - sum
+	]]>
+	
+	</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -400,7 +416,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
         <option name="charting.chart">bar</option>
         <option name="charting.chart.nullValueMode">gaps</option>
         <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
-        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.stackMode">stacked</option>
         <option name="charting.chart.style">shiny</option>
         <option name="charting.drilldown">all</option>
         <option name="charting.layout.splitSeries">0</option>

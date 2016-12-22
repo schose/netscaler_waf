@@ -1,17 +1,21 @@
 <form>
   <label>Security Dashboard</label>
   <fieldset submitButton="false" autoRun="true">
-    <input type="dropdown" searchWhenChanged="true" token="host">
+    <input type="multiselect" token="hostmulti" searchWhenChanged="true">
       <label>Netscaler</label>
-      <default>*</default>
       <choice value="*">all</choice>
+      <default>*</default>
+      <prefix>(</prefix>
+      <valuePrefix>ns_waf.nswaf_host="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+      <suffix>)</suffix>
       <fieldForLabel>host</fieldForLabel>
       <fieldForValue>host</fieldForValue>
       <search>
         <query>| `nststats` values(ns_waf.nswaf_host) as host from datamodel=netscaler_waf
 | mvexpand host
-| sort host		
-		</query>
+| sort host</query>
       </search>
     </input>
     <input type="dropdown" searchWhenChanged="true" token="vhost">
@@ -21,7 +25,7 @@
       <fieldForLabel>vhost</fieldForLabel>
       <fieldForValue>vhost</fieldForValue>
       <search>
-        <query>| `nststats` values(ns_waf.nswaf_requestvhost) as vhost from datamodel=netscaler_waf where ns_waf.nswaf_host=$host$
+        <query>| `nststats` values(ns_waf.nswaf_requestvhost) as vhost from datamodel=netscaler_waf where $hostmulti$
 | mvexpand vhost
 | sort vhost</query>
       </search>
@@ -56,7 +60,7 @@
       <single>
         <search>
           <query>| `nststats` count from datamodel=netscaler_waf 
-		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"</query>
+		where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"</query>
         </search>
         <option name="underLabel">Events</option>
         <option name="linkView">search</option>
@@ -74,7 +78,7 @@
       <single>
         <search>
           <query>| `nststats` dc(ns_waf.nswaf_src_Country) from datamodel=netscaler_waf
-		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"</query>
+		where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"</query>
         </search>
         <option name="underLabel">Countries</option>
         <option name="linkView">search</option>
@@ -92,7 +96,7 @@
       <single>
         <search>
           <query>| `nststats` dc(ns_waf.nswaf_src) from datamodel=netscaler_waf
-		where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"</query>
+		where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"</query>
         </search>
         <option name="underLabel">Unique IPs</option>
         <option name="linkView">search</option>
@@ -115,7 +119,7 @@
       <map>
         <search>
           <query>| `nststats` count from datamodel=netscaler_waf 
-where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_src
+where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_src
 | rename ns_waf.nswaf_src as ip
 | iplocation ip
 | geostats count by Country</query>
@@ -151,7 +155,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
         <title>Event Type Distribution by Type Over Time</title>
         <search>
           <query>| `nststats` prestats=t count from datamodel=netscaler_waf 
-	where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
+	where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
 	by _time span=1h
 	| timechart span=1h count</query>
         </search>
@@ -184,7 +188,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       <chart>
         <title>blocked vs. monitored</title>
         <search>
-          <query>| `nststats` count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_action</query>
+          <query>| `nststats` count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_action</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -217,15 +221,14 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       <chart>
         <title>Top vHosts</title>
         <search>
-          <query>	
-
-	<![CDATA[
+          <query>
+            <![CDATA[
 	
 	| tstats prestats=t count from datamodel=netscaler_waf where 
-    [| tstats summariesonly=t count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"  by ns_waf.nswaf_requestvhost 
+    [| tstats summariesonly=t count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"  by ns_waf.nswaf_requestvhost 
     | sort 10 - count 
     | fields ns_waf.nswaf_requestvhost ] 
-    ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" 
+    ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" 
     by ns_waf.nswaf_requestvhost ns_waf.nswaf_action 
 | chart count over ns_waf.nswaf_requestvhost by ns_waf.nswaf_action
 | rename "not blocked" as not_blocked
@@ -233,7 +236,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
 | sort - sum 
 | fields - sum
 	]]>
-	</query>
+          </query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -264,9 +267,8 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       <chart>
         <title>Spreading Top vHosts</title>
         <search>
-          <query>
-| `nststats` count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" by ns_waf.nswaf_requestvhost
-	| sort 10 - count		  </query>
+          <query>| `nststats` count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" by ns_waf.nswaf_requestvhost
+	| sort 10 - count</query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -300,14 +302,13 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
         <title>Top IPs</title>
         <search>
           <query>
-		  
-	<![CDATA[
+            <![CDATA[
 	
 	| tstats prestats=t count from datamodel=netscaler_waf where 
-    [| tstats summariesonly=t count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"  by ns_waf.nswaf_src 
+    [| tstats summariesonly=t count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"  by ns_waf.nswaf_src 
     | sort 10 - count 
     | fields ns_waf.nswaf_src ] 
-    ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" 
+    ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" 
     by ns_waf.nswaf_src ns_waf.nswaf_action 
 | chart count over ns_waf.nswaf_src by ns_waf.nswaf_action
 | rename "not blocked" as not_blocked
@@ -315,9 +316,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
 | sort - sum 
 | fields - sum
 	]]>
-	
-		  
-		  </query>
+          </query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -349,7 +348,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
         <title>Event Distribution by Country Over Time</title>
         <search>
           <query>| `nststats` prestats=t count from datamodel=netscaler_waf 
-	where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
+	where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$"
 	by _time span=1h ns_waf.nswaf_src_Country
 	| timechart span=1h count by ns_waf.nswaf_src_Country</query>
         </search>
@@ -379,21 +378,19 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       </chart>
     </panel>
   </row>
-  
-   <row>
+  <row>
     <panel>
       <chart>
         <title>Top Security Violation</title>
         <search>
           <query>
-		  
-	<![CDATA[
+            <![CDATA[
 	
 	| tstats prestats=t count from datamodel=netscaler_waf where 
-    [| tstats summariesonly=t count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"  by ns_waf.nswaf_secviolation 
+    [| tstats summariesonly=t count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$"  by ns_waf.nswaf_secviolation 
     | sort 10 - count 
     | fields ns_waf.nswaf_secviolation ] 
-    ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" 
+    ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$" ns_waf.nswaf_src="$src$" 
     by ns_waf.nswaf_secviolation ns_waf.nswaf_action 
 | chart count over ns_waf.nswaf_secviolation by ns_waf.nswaf_action
 | rename "not blocked" as not_blocked
@@ -401,8 +398,7 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
 | sort - sum 
 | fields - sum
 	]]>
-	
-	</query>
+          </query>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
@@ -433,11 +429,10 @@ where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_ac
       <table>
         <title>Top URLs</title>
         <search>
-          <query>| `nststats` count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ ns_waf.nswaf_host=$host$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_request
+          <query>| `nststats` count from datamodel=netscaler_waf where ns_waf.nswaf_requestvhost=$vhost$ $hostmulti$ ns_waf.nswaf_action="$action$"  ns_waf.nswaf_src="$src$" by ns_waf.nswaf_request
 	| sort 10 - count</query>
         </search>
       </table>
     </panel>
   </row>
-  
 </form>
